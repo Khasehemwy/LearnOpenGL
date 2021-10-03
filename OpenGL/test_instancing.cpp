@@ -1,4 +1,4 @@
-﻿#include"includes.h"
+#include"includes.h"
 
 Camera camera;
 float gl_deltaTime;
@@ -6,7 +6,7 @@ float gl_deltaTime;
 float g_fov = 45.0f;
 unsigned int VAO, VBO, EBO;
 
-const unsigned int asteroidNum = 10000;
+const unsigned int asteroidNum = 5000;
 glm::mat4 asteroids[asteroidNum];
 
 void renderScene(Shader& shader,Model& rock)

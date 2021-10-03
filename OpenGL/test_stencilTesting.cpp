@@ -56,7 +56,8 @@ int main()
 {
 	Window window(1400, 800, "???", NULL, NULL);
 
-	Shader ourShader("system/vShader.vs", "system/fShader_model.fs");
+	Shader shader("system/vShader.vs", "system/fShader_model.fs");
+	Shader shader_outline("system/vShader.vs", "system/fShader_outline.fs");
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
@@ -65,7 +66,7 @@ int main()
 
 	Model ourModel("Resources/TV/uploads_files_2941243_retrotv0319.obj");
 
-	glGenBuffers(1, &VBO);	
+	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
@@ -81,9 +82,22 @@ int main()
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
+	//设置
+	shader.use();
+	shader.set("light.ambient", { 0.8f, 0.8f, 0.8f });
+	shader.set("light.diffuse", { 0.8f, 0.8f, 0.8f }); // 将光照调暗了一些以搭配场景
+	shader.set("light.specular", { 1.0f, 1.0f, 1.0f });
+	shader.set("light.constant", 1.0f);
+	shader.set("light.linear", 0.09f);
+	shader.set("light.quadratic", 0.032f);
+	shader.set("light.cutOff", glm::cos(glm::radians(12.5f)));
+	shader.set("light.outerCutOff", glm::cos(glm::radians(17.5f)));
+	//材质
+	//ourShader.set("material.ambient", { 1.0f, 0.5f, 0.31f });
+	shader.set("material.shininess", 32.0f);
 
 	//变换矩阵
-	ourShader.use();
+	shader.use();
 	glm::mat4 model(1.0f);
 	model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0, 0.0, 0.0));
 	glm::mat4 view(1.0f);
@@ -91,14 +105,14 @@ int main()
 	camera.view = view;
 	glm::mat4 projection(1.0f);
 	projection = glm::perspective(glm::radians(fov), (float)window.width / (float)window.height, 0.1f, 100.0f);
-	glEnable(GL_DEPTH_TEST);
 
+	//时间
 	float deltaTime = 0.0f; // 当前帧与上一帧的时间差
 	float lastFrame = 0.0f; // 上一帧的时间
 	float currentFrame = glfwGetTime();
 
 	//交互
-	Input inputs(&window, &ourShader, &camera);
+	Input inputs(&window, &shader, &camera);
 	inputs.EnableCursor();
 	inputs.EnableScroll(&fov);
 
@@ -110,43 +124,13 @@ int main()
 		inputs.ProcessInput();
 
 		glClearColor(0.09, 0.25, 0.32, 1);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-		ourShader.use();
-
-		//光源属性
-		ourShader.set("light.position", camera.cameraPos);
-		ourShader.set("light.direction", camera.cameraFront);
-		ourShader.set("light.ambient", { 0.8f, 0.8f, 0.8f });
-		ourShader.set("light.diffuse", { 0.8f, 0.8f, 0.8f }); // 将光照调暗了一些以搭配场景
-		ourShader.set("light.specular", { 1.0f, 1.0f, 1.0f });
-
-		ourShader.set("light.constant", 1.0f);
-		ourShader.set("light.linear", 0.09f);
-		ourShader.set("light.quadratic", 0.032f);
-
-		ourShader.set("light.cutOff", glm::cos(glm::radians(12.5f)));
-		ourShader.set("light.outerCutOff", glm::cos(glm::radians(17.5f)));
-
-		//材质
-		//ourShader.set("material.ambient", { 1.0f, 0.5f, 0.31f });
-		ourShader.set("material.shininess", 32.0f);
-
-		//坐标变换
-		camera.view = glm::lookAt(camera.cameraPos, camera.cameraPos + camera.cameraFront, camera.cameraUp);
-		ourShader.set("view", camera.view);
-		ourShader.set("viewPos", camera.cameraPos);
-		projection = glm::perspective(glm::radians(fov), window.width / window.height, 0.1f, 100.0f);
-		ourShader.set("projection", projection);
-
-		model = glm::mat4(1.0);
-		model = glm::translate(model, glm::vec3(3.0f, -1.5f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));	// it's a bit too big for our scene, so scale it down
-		ourShader.set("model", model);
-
-		ourModel.Draw(ourShader);
+		glEnable(GL_STENCIL_TEST);
+		glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 
 		//光源
+		glStencilMask(0x00);
 		lightShader.use();
 		lightShader.set("view", camera.view);
 		lightShader.set("projection", projection);
@@ -156,6 +140,44 @@ int main()
 		lightShader.set("model", model);
 		glBindVertexArray(lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		shader.use();
+		//光源属性
+		shader.set("light.position", camera.cameraPos);
+		shader.set("light.direction", camera.cameraFront);
+
+		//坐标变换
+		camera.view = glm::lookAt(camera.cameraPos, camera.cameraPos + camera.cameraFront, camera.cameraUp);
+		shader.set("view", camera.view);
+		shader.set("viewPos", camera.cameraPos);
+		shader.set("projection", projection);
+
+		model = glm::mat4(1.0);
+		model = glm::translate(model, glm::vec3(3.0f, -1.5f, 0.0f)); // translate it down so it's at the center of the scene
+		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));	// it's a bit too big for our scene, so scale it down
+		shader.set("model", model);
+
+		glStencilFunc(GL_ALWAYS, 1, 0xff);
+		glStencilMask(0xff);
+		ourModel.Draw(shader);
+
+		//绘制边框
+		glStencilFunc(GL_NOTEQUAL, 1, 0xff);
+		glStencilMask(0x00);
+		//glDisable(GL_DEPTH_TEST);
+
+		shader_outline.use();
+		model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(3.0f, -1.5f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(1.02f, 1.02f, 1.02f));	// it's a bit too big for our scene, so scale it down
+		shader_outline.set("view", camera.view);
+		shader_outline.set("viewPos", camera.cameraPos);
+		shader_outline.set("projection", projection);
+		shader_outline.set("model", model);
+		ourModel.Draw(shader_outline);
+
+		glStencilMask(0xff);
+		glEnable(GL_DEPTH_TEST);
 
 		glfwSwapBuffers(window.window);
 		glfwPollEvents();

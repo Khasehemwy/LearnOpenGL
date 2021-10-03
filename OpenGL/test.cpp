@@ -1,76 +1,11 @@
-﻿#include"includes.h"
+#include"includes.h"
 
 Camera camera;
 float gl_deltaTime;
+float fov;
 
-unsigned int loadTexture(char const* path);
 void renderScene(Shader& shader);
 void renderScene2(Shader& shader);
-
-void frameBuffer_size_callback(GLFWwindow* window, int width, int heigth)
-{
-	glViewport(0, 0, width, heigth);
-}
-
-float gl_lastX, gl_lastY;
-float gl_pitch, gl_yaw;
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-	float xOffset = xpos - gl_lastX;
-	float yOffset = gl_lastY - ypos;
-	gl_lastX = xpos;
-	gl_lastY = ypos;
-	float sensitivity = 0.05f;
-	xOffset *= sensitivity;
-	yOffset *= sensitivity;
-	gl_yaw += xOffset;
-	gl_pitch += yOffset;
-	if (gl_pitch > 89.0f)
-		gl_pitch = 89.0f;
-	if (gl_pitch < -89.0f)
-		gl_pitch = -89.0f;
-
-	glm::vec3 front;
-	front.x = cos(glm::radians(gl_pitch)) * cos(glm::radians(gl_yaw));
-	front.y = sin(glm::radians(gl_pitch));
-	front.z = cos(glm::radians(gl_pitch)) * sin(glm::radians(gl_yaw));
-	camera.cameraFront = glm::normalize(front);
-}
-float fov=45.0f;
-void scroll_callback(GLFWwindow* window, double xOffset, double yOffset)
-{
-	fov -= yOffset;
-	if (fov <= 1.0f)fov = 1.0f;
-	if (fov >= 60.0f)fov = 60.0f;
-}
-
-void ProcessInput(GLFWwindow* window,GLuint shaderProgram)
-{
-	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-		glfwSetWindowShouldClose(window, true);
-	}
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		int location = glGetUniformLocation(shaderProgram, "alpha");
-		float alpha;
-		glGetUniformfv(shaderProgram, location, &alpha);
-		glUniform1f(location, alpha < 1.0f ? alpha + 0.001f : alpha);
-	}
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		int location = glGetUniformLocation(shaderProgram, "alpha");
-		float alpha;
-		glGetUniformfv(shaderProgram, location, &alpha);
-		glUniform1f(location, alpha > 0.0f ? alpha - 0.001f : alpha);
-	}
-
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.Move(1);
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.Move(2);
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.Move(3);
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.Move(4);
-}
 
 unsigned int VAO, VBO, EBO;
 
@@ -139,7 +74,6 @@ glm::vec3 cubePositions[] = {
 	glm::vec3(1.5f,  0.2f, -1.5f),
 	glm::vec3(-1.3f,  1.0f, -1.5f)
 };
-const float window.width = 1400, window.height = 800;
 
 unsigned int texture1;
 unsigned int sepcularMap;
@@ -148,16 +82,7 @@ unsigned int texWindowRed;
 
 int main()
 {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	GLFWwindow* window = glfwCreateWindow(window.width, window.height, "???", NULL, NULL);
-	glfwMakeContextCurrent(window);
-	glfwSetFramebufferSizeCallback(window, frameBuffer_size_callback);
-
-	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+	Window window(1400, 800, "???", NULL, NULL);
 
 
 	glGenVertexArrays(1, &VAO);
@@ -191,10 +116,10 @@ int main()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	int width, height;
 
-	texture1 = loadTexture(("./Resources/container2.png"));
-	sepcularMap = loadTexture(("./Resources/container2_specular.png"));
-	texGrass = loadTexture(("./Resources/grass.png"));
-	texWindowRed = loadTexture(("./Resources/windowRed.png"));
+	texture1 = LoadTexture(("./Resources/container2.png"));
+	sepcularMap = LoadTexture(("./Resources/container2_specular.png"));
+	texGrass = LoadTexture(("./Resources/grass.png"));
+	texWindowRed = LoadTexture(("./Resources/windowRed.png"));
 
 	//stbi_set_flip_vertically_on_load(true);
 	//data = stbi_load("./Resources/awesomeface.png", &width, &height, &nrChannels, 0);
@@ -306,15 +231,10 @@ int main()
 	glm::mat4 model(1.0f),view(1.0f),projection(1.0f);
 
 
-	//鼠标
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetCursorPosCallback(window, mouse_callback);
-	float lastX = (float)window.width / 2;
-	float lastY = (float)window.height / 2;
-	gl_lastX = lastX; gl_lastY = lastY;
-
-	//滚轮
-	glfwSetScrollCallback(window, scroll_callback);
+	//输入交互
+	Input inputs(&window, &shader, &camera);
+	inputs.EnableCursor();
+	inputs.EnableScroll(&fov);
 
 	//时间
 	float deltaTime = 0.0f; // 当前帧与上一帧的时间差
@@ -322,12 +242,12 @@ int main()
 	float currentFrame = glfwGetTime();
 
 
-	while (!glfwWindowShouldClose(window))
+	while (!glfwWindowShouldClose(window.window))
 	{
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 		camera.cameraSpeed = std::max(deltaTime * 20000.5f, 0.015f);
-		ProcessInput(window, shader.ID);
+		inputs.ProcessInput();
 
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glClearColor(0.09, 0.25, 0.32, 1.0f);
@@ -441,7 +361,7 @@ int main()
 		glBindVertexArray(lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
 
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(window.window);
 		glfwPollEvents();
 	}
 
