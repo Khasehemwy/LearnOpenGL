@@ -26,3 +26,8 @@ OpenGL学习记录 , 使用了GLFW/GLAD/GLM/stb_image.h等第三方库.
   <td><image src="https://user-images.githubusercontent.com/57032017/135757212-c7f92c2e-b266-4c69-83a2-e3119fa8fde9.png" width=100% height="100%" border=0></td>
   <td><image src="https://user-images.githubusercontent.com/57032017/135757097-a1c34753-2be2-412f-b6e3-5d9f8b230358.png" width=100% height="100%" border=0></td>
   </tr></table>
+  
+* test_frameBuffers.cpp / test_frameBuffers2.cpp  
+  帧缓冲(将一帧的渲染结果存到Texture,再渲染这个Texture,采样时可以做出很多效果. 图示:右上角显示灰度画面)  
+    
+  <image src="https://user-images.githubusercontent.com/57032017/135990331-3e4478a2-8c59-4e64-88c6-470684313082.gif" width="60%">
