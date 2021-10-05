@@ -1,4 +1,4 @@
-﻿#include"Mesh.h"
+#include"Mesh.h"
 
 Mesh::Mesh(vector<Vertex> vertices, vector<unsigned int> indices, vector<Texture> textures):
     vertices(vertices),
@@ -27,12 +27,12 @@ void Mesh::Draw(Shader& shader)
         shader.set(("material." + name + "[" + number + "]").c_str(), (float)i);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
-    glActiveTexture(GL_TEXTURE0);
 
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-    glBindVertexArray(0);
 
+    glActiveTexture(GL_TEXTURE0);
+    glBindVertexArray(0);
 }
 
 void Mesh::DrawInstance(unsigned int modelNum)
@@ -66,8 +66,8 @@ void Mesh::setupMesh()
     glGenBuffers(1, &EBO);
 
     glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
 
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);

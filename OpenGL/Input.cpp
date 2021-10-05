@@ -1,4 +1,4 @@
-﻿#include "Input.h"
+#include "Input.h"
 Camera* Input_g_camera;
 float Input_g_lastX, Input_g_lastY;
 float Input_g_pitch, Input_g_yaw;
@@ -53,6 +53,7 @@ void Input::EnableCursor()
 
 void Input::EnableScroll(float* fov)
 {
+	if (*fov <= 0.01f) { *fov = 45.0f; }
 	Input_g_fov = fov;
 	glfwSetScrollCallback(window->window, Input_scroll_callback);
 }

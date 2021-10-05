@@ -1,9 +1,10 @@
-﻿#include"Model.h"
+#include"Model.h"
 
 unsigned int TextureFromFile(const char* path, const string& directory, bool gamma = false);
 
 void Model::Draw(Shader& shader)
 {
+	shader.use();
 	for (unsigned int i = 0; i < meshes.size(); i++) {
 		meshes[i].Draw(shader);
 	}

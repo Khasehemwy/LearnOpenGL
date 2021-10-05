@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include <bits/stdc++.h>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
@@ -22,6 +22,7 @@ class Mesh;
 class Model;
 struct Texture;
 
+#include "Global.h"
 #include "Function.h"
 #include "Window.h"
 #include "Mesh.h"

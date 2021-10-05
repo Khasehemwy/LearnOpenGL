@@ -1,0 +1,49 @@
+# Blender MTL File: 'Couch William 302.blend'
+# Material Count: 4
+
+newmtl Fabric_
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump -s 3.000000 3.000000 3.000000 E:\\3D Objects\\Objects\\Couch William\\Textures\\Fabric\\Fabric039_2K_Normal.jpg
+map_Ns -s 3.000000 3.000000 3.000000 E:\\3D Objects\\Objects\\Couch William\\Textures\\Fabric\\Fabric039_2K_Roughness.jpg
+
+newmtl Fabric_Orange
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump -s 2.000000 2.000000 1.000000 E:\\3D Objects\\Objects\\Couch William\\Textures\\Fabric Orange\\Fabric Orange_normal.png
+map_Ns -s 2.000000 2.000000 1.000000 E:\\3D Objects\\Objects\\Couch William\\Textures\\Fabric Orange\\Fabric Orange_Roughness.png
+
+newmtl Fabric_Upholstery
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Ks E:\\3D Objects\\Objects\\Couch William\\Textures\\Fabric Upholstery\\FabricUpholsteryBrightAnglePattern001_GLOSS_1K.jpg
+
+newmtl Fabric_Upholstery_Pyramids
+Ns 225.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Bump -s 2.000000 2.000000 1.000000 E:\\3D Objects\\Objects\\Couch William\\Textures\\Fabric Upholstery Pyramids\\Fabric Upholstery Pyramids_normal.png
+map_Ns -s 2.000000 2.000000 1.000000 E:\\3D Objects\\Objects\\Couch William\\Textures\\Fabric Upholstery Pyramids\\Fabric Upholstery Pyramids_Roughness.png
