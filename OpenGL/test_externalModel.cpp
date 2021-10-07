@@ -63,7 +63,7 @@ int main()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
-	Model ourModel("Resources/TV/uploads_files_2941243_retrotv0319.obj");
+	Model ourModel("Resources/chair/uploads_files_2769712_Couch+William+302.obj");
 
 	glGenBuffers(1, &VBO);	
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);

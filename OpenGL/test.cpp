@@ -62,6 +62,7 @@ unsigned int indices[] = {
 	0,1,3,
 	1,2,3
 };
+
 glm::vec3 cubePositions[] = {
 	glm::vec3(0.0f,  0.0f,  0.0f),
 	glm::vec3(0.0f,  1.5f, 0.0f),
@@ -73,6 +74,15 @@ glm::vec3 cubePositions[] = {
 	glm::vec3(1.5f,  2.0f, -2.5f),
 	glm::vec3(1.5f,  0.2f, -1.5f),
 	glm::vec3(-1.3f,  1.0f, -1.5f)
+};
+
+std::vector<std::string> skyBoxPaths{
+	"./Resources/skybox/right.jpg",
+	"./Resources/skybox/left.jpg",
+	"./Resources/skybox/top.jpg",
+	"./Resources/skybox/bottom.jpg",
+	"./Resources/skybox/front.jpg",
+	"./Resources/skybox/back.jpg"
 };
 
 unsigned int texture1;
@@ -120,6 +130,7 @@ int main()
 	sepcularMap = LoadTexture(("./Resources/container2_specular.png"));
 	texGrass = LoadTexture(("./Resources/grass.png"));
 	texWindowRed = LoadTexture(("./Resources/windowRed.png"));
+
 
 	//stbi_set_flip_vertically_on_load(true);
 	//data = stbi_load("./Resources/awesomeface.png", &width, &height, &nrChannels, 0);
@@ -200,6 +211,7 @@ int main()
 	oit_data = (GLuint*)glMapBuffer(GL_PIXEL_UNPACK_BUFFER, GL_WRITE_ONLY);
 	memset(oit_data, 0x00, total_pixel * sizeof(GLuint));
 	glUnmapBuffer(GL_PIXEL_UNPACK_BUFFER);
+	glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 
 	GLuint atomic_counter_buffer;
 	glGenBuffers(1, &atomic_counter_buffer);
@@ -223,7 +235,8 @@ int main()
 
 	Shader shader_blend("", "system/fShader_oit_blend.fs");
 
-	
+	//天空盒
+	Skybox skybox(skyBoxPaths);
 
 	//***************************
 
@@ -249,7 +262,6 @@ int main()
 		camera.cameraSpeed = std::max(deltaTime * 20000.5f, 0.015f);
 		inputs.ProcessInput();
 
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		glClearColor(0.09, 0.25, 0.32, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -269,6 +281,7 @@ int main()
 		glBindImageTexture(3, head_pointer_texture, 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32UI);
 
 		glBindImageTexture(4, linked_list_texture, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_RGBA32UI);
+		glBindBuffer(GL_PIXEL_UNPACK_BUFFER, 0);
 
 
 		//光源属性
@@ -308,14 +321,16 @@ int main()
 		glViewport(0, 0, window.width, window.height);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-
-
-
-		glViewport(0, 0, window.width, window.height);
-		shader.use();
 		projection = glm::perspective(glm::radians(fov), window.width / window.height, 0.1f, 100.0f);
 		camera.view = glm::lookAt(camera.cameraPos, camera.cameraPos + camera.cameraFront, camera.cameraUp);
+
+		//天空盒
+		view = glm::mat4(glm::mat3(camera.view));
+		skybox.Draw(projection, view);
+
+		//OIT,因为需要关闭深度测试,所以得在天空盒绘制完后再混合
+		glViewport(0, 0, window.width, window.height);
+		shader.use();
 		shader.set("projection", projection);
 		shader.set("view", camera.view);
 		shader.set("viewPos", camera.cameraPos);
@@ -344,7 +359,7 @@ int main()
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, linked_list_texture);
 		glActiveTexture(GL_TEXTURE0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glClear(GL_DEPTH_BUFFER_BIT);
 		renderScene(shader_blend);
 
 

@@ -60,6 +60,12 @@
     <ClCompile Include="test_frameBuffers2.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="test_cubeMap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -90,6 +96,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Global.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -96,5 +96,5 @@ void main() {
 
 	imageStore(list_buffer, int(index), item);
 
-	FragColor=color;
+	discard;
 }

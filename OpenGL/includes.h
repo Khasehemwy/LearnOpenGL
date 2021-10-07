@@ -20,6 +20,7 @@ class Window;
 class Input;
 class Mesh;
 class Model;
+class Skybox;
 struct Texture;
 
 #include "Global.h"
@@ -30,3 +31,4 @@ struct Texture;
 #include "Shader.h"
 #include "Camera.h"
 #include "Input.h"
+#include "Skybox.h"
