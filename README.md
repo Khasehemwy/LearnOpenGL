@@ -2,10 +2,11 @@
 OpenGL学习记录 , 使用了GLFW/GLAD/GLM/stb_image.h等第三方库.
 
 # Demo
-所有的Demo都是以 **test_** 开头的 **.cpp** 文件 , 在 **./OpenGL** 中.
+所有的Demo都是以 **test_** 开头的 **.cpp** 文件 , 在 **./OpenGL** 中.  
+模型、贴图等资源在 **./OpenGL/Resources** 下,可以选择性下载.
 
 * test.cpp  
-  光照、阴影、顺序无关的混合(OIT).  
+  光照、阴影、顺序无关的混合(OIT)、天空盒(采用立方体贴图).  
     
   <image src="https://user-images.githubusercontent.com/57032017/135709547-9e4b50d0-1eb1-44e8-9b2f-e4aedb8f9549.png" width="60%">
 
@@ -30,4 +31,12 @@ OpenGL学习记录 , 使用了GLFW/GLAD/GLM/stb_image.h等第三方库.
 * test_frameBuffers.cpp / test_frameBuffers2.cpp  
   帧缓冲(将一帧的渲染结果存到Texture,再渲染这个Texture,采样时可以做出很多效果. 图示:右上角显示灰度画面)  
     
-  <image src="https://user-images.githubusercontent.com/57032017/135990331-3e4478a2-8c59-4e64-88c6-470684313082.gif" width="60%">
+  <image src="https://user-images.githubusercontent.com/57032017/135990331-3e4478a2-8c59-4e64-88c6-470684313082.gif" width="60%">  
+  
+* test_cubeMap.cpp  
+  立方体贴图、环境反射、环境折射  
+      
+  <table><tr>
+  <td><image src="https://user-images.githubusercontent.com/57032017/136307394-bc60ed3c-ee0a-4902-8c5f-ae0225aaba11.gif" width=100% height="100%" border=0><p>反射</p></td>
+  <td><image src="https://user-images.githubusercontent.com/57032017/136307433-e56a8ba0-a70b-4bf7-a187-634b3e7e95ae.gif" width=100% height="100%" border=0><p>折射(玻璃电视)</p></td>
+  </tr></table>
