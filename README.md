@@ -37,6 +37,6 @@ OpenGL学习记录 , 使用了GLFW/GLAD/GLM/stb_image.h等第三方库.
   立方体贴图、环境反射、环境折射  
       
   <table><tr>
-  <td><image src="https://user-images.githubusercontent.com/57032017/136307394-bc60ed3c-ee0a-4902-8c5f-ae0225aaba11.gif" width=100% height="100%" border=0><p>反射</p></td>
-  <td><image src="https://user-images.githubusercontent.com/57032017/136307433-e56a8ba0-a70b-4bf7-a187-634b3e7e95ae.gif" width=100% height="100%" border=0><p>折射(玻璃电视)</p></td>
+  <td><image src="https://user-images.githubusercontent.com/57032017/136329100-c537c2ac-12e0-4ea3-a652-6dd42080950f.gif" width=100% height="100%" border=0><p>反射(钢球)</p></td>
+  <td><image src="https://user-images.githubusercontent.com/57032017/136329236-1157b20e-a130-42c8-bd46-7be90bf5706b.gif" width=100% height="100%" border=0><p>折射(玻璃电视)</p></td>
   </tr></table>
