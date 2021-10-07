@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 //#ifdef SHADER_H
 //#define SHADER_H
@@ -7,13 +7,15 @@
 
 class Shader
 {
+private:
+    unsigned int CreateSingleShader(const char* shaderFilePath, unsigned int shaderFlag);
 public:
 	unsigned int ID;
 
-    Shader(const char* vertexPath, const char* fragmentPath);
+    Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
 
     //设置shader
-    void Set_Shader(const char* vertexPath, const char* fragmentPath);
+    void Set_Shader(const char* vertexPath, const char* fragmentPath, const char* geometryPath = nullptr);
     // 使用/激活程序
     void use();
     // uniform工具函数
