@@ -3,8 +3,9 @@ OpenGL学习记录 , 使用了GLFW/GLAD/GLM/stb_image.h等第三方库.
 
 # Demo
 所有的Demo都是以 **test_** 开头的 **.cpp** 文件 , 在 **./OpenGL** 中.  
-模型、贴图等资源在 **./OpenGL/Resources** 下,可以选择性下载.
-
+  
+模型、贴图等资源在 **./OpenGL/Resources** 下 , 可以选择性下载.
+  
 * test.cpp  
   光照、阴影、顺序无关的混合(OIT)、天空盒(采用立方体贴图).  
     
@@ -39,4 +40,11 @@ OpenGL学习记录 , 使用了GLFW/GLAD/GLM/stb_image.h等第三方库.
   <table><tr>
   <td><image src="https://user-images.githubusercontent.com/57032017/136329100-c537c2ac-12e0-4ea3-a652-6dd42080950f.gif" width=100% height="100%" border=0><p>反射(钢球)</p></td>
   <td><image src="https://user-images.githubusercontent.com/57032017/136329236-1157b20e-a130-42c8-bd46-7be90bf5706b.gif" width=100% height="100%" border=0><p>折射(玻璃电视)</p></td>
-  </tr></table>
+  </tr></table>  
+      
+* test_ geometryShader.cpp  
+  几何着色器(显示模型每个三角形的法线 , 法线可视化)  
+      
+  <image src="https://user-images.githubusercontent.com/57032017/136401901-3b831783-c8a3-4526-a461-64d03b3712c4.gif" width="60%">  
+    
+
