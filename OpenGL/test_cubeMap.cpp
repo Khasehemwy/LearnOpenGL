@@ -70,6 +70,7 @@ int main()
 
 		shader_model.set("light.position", camera.cameraPos);
 		shader_model.set("light.direction", camera.cameraFront);
+		shader_model.set("viewPos", camera.cameraPos);
 
 		//glViewport(0, 0, window.width, window.height);
 
