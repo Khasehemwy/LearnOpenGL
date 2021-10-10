@@ -21,7 +21,7 @@ OpenGL学习记录 , 使用了GLFW/GLAD/GLM/stb_image.h等第三方库.
   
   <image src="https://user-images.githubusercontent.com/57032017/135709186-81b4bd87-5d1f-437d-a4a7-6659d294fc17.gif" width="60%">
   
-* test_test_stencilTesting.cpp  
+* test_stencilTesting.cpp  
   模板测试(示例为添加边框. 左为原模式,右为电视模型添加边框)  
     
   <table><tr>
