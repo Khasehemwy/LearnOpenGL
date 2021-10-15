@@ -50,4 +50,11 @@ OpenGL学习记录 , 使用了GLFW/GLAD/GLM/stb_image.h等第三方库.
       
   <image src="https://user-images.githubusercontent.com/57032017/136401901-3b831783-c8a3-4526-a461-64d03b3712c4.gif" width="60%">  
     
+* test_HDR.cpp  
+  HDR色彩映射
 
+  <table><tr>
+  <td><image src="https://user-images.githubusercontent.com/57032017/137425245-5bc32c74-c740-424f-a1d0-14cc444f218a.png" width=100% height="100%" border=0><p>无HDR(亮部细节丢失)</p></td>
+  <td><image src="https://user-images.githubusercontent.com/57032017/137425394-2c437ea9-1803-4ca0-9171-36957ab0440c.png" width=100% height="100%" border=0><p>有HDR</p></td>
+  <td><image src="https://user-images.githubusercontent.com/57032017/137425236-89906437-471e-4326-b32b-7faf2ca26459.gif" width=100% height="100%" border=0><p>HDR模拟由暗到亮</p></td>
+  </tr></table> 
