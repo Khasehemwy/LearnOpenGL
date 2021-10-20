@@ -58,3 +58,12 @@ OpenGL学习记录 , 使用了GLFW/GLAD/GLM/stb_image.h等第三方库.
   <td><image src="https://user-images.githubusercontent.com/57032017/137425394-2c437ea9-1803-4ca0-9171-36957ab0440c.png" width=100% height="100%" border=0><p>有HDR</p></td>
   <td><image src="https://user-images.githubusercontent.com/57032017/137425236-89906437-471e-4326-b32b-7faf2ca26459.gif" width=100% height="100%" border=0><p>HDR模拟由暗到亮</p></td>
   </tr></table> 
+    
+* test_bloom.cpp  
+  泛光(强光部分有晕染效果)   
+    
+  <table><tr>
+      <td><image src="https://user-images.githubusercontent.com/57032017/138111268-16fcf5b0-5913-4fdc-ac9f-8e86416fe0c2.png" width=100% height="100%" border=0><p>无泛光</p></td>
+  <td><image src="https://user-images.githubusercontent.com/57032017/138110262-1035c5da-72c0-46c2-b584-5d2841da36b4.gif" width=100% height="100%" border=0><p>白色光源周围有模糊效果,显得更亮</p></td>
+  </tr></table> 
+    
