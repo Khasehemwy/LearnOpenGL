@@ -133,15 +133,13 @@ int main()
 		//model = glm::scale(model, glm::vec3(0.1f, 0.1f, 0.1f));	// it's a bit too big for our scene, so scale it down
 		ourShader.set("model", model);
 
-		ourModel.Draw(ourShader);
-
 		glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
 		glClearColor(0.19, 0.35, 0.42, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		ourModel.Draw(ourShader);
-		//绘制用于采样渲染的纹理
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		ourModel.Draw(ourShader);
+		//绘制用于采样渲染的纹理
 		glDisable(GL_DEPTH_TEST);
 		shader_tex.use();
 		glBindVertexArray(texVAO);

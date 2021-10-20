@@ -56,7 +56,7 @@ int main()
 {
 	Window window(1400, 800, "???", NULL, NULL);
 
-	Shader ourShader("system/vShader.vs", "system/fShader_model.fs");
+	Shader ourShader("system/vShader.vs", "system/fShader_model_multiLight.fs");
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_MIRRORED_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_MIRRORED_REPEAT);
