@@ -67,3 +67,7 @@ OpenGL学习记录 , 使用了GLFW/GLAD/GLM/stb_image.h等第三方库.
   <td><image src="https://user-images.githubusercontent.com/57032017/138110262-1035c5da-72c0-46c2-b584-5d2841da36b4.gif" width=100% height="100%" border=0><p>白色光源周围有模糊效果,显得更亮</p></td>
   </tr></table> 
     
+* test_pbr.cpp  
+  PBR(基于物理的渲染) (金属度从左到右上升,粗糙度从上到下上升)  
+
+  <image src="https://user-images.githubusercontent.com/57032017/138857865-5b7a7782-e808-4fa8-afcc-2fafcd9f82c6.png" width="60%">  
